@@ -3,6 +3,10 @@ import os
 import cv2
 import numpy as np
 
+def write_coordinates_to_file(x_coordinate=int, y_coordinate=int):
+    with open('point_coordinates.txt', 'a') as file_with_coordinates:
+        file_with_coordinates.write(f'Coordinates: x = {x_coordinate}, y = {y_coordinate}\n')
+
 
 def gaussian_blur():
     readed_image = cv2.imread('variant-2.png', cv2.IMREAD_COLOR)
@@ -20,8 +24,8 @@ def clear_folder():
 
 def video_processing():
     print('Нажми q чтобы завершить!')
-    x = [1]
-    y = [1]
+    all_x_coordinates = [1]
+    all_y_cooordinates = [1]
     THRESHOLD = 0.7
     capture = cv2.VideoCapture(0)
     point_to_search = cv2.imread('ref-point.jpg', 0)
@@ -40,15 +44,18 @@ def video_processing():
 
             print(f'центр: ({coordinates[0] + h // 2}, {coordinates[1] + w // 2})')
 
-            x.append(coordinates[0] + h // 2)
-            y.append(coordinates[1] + w // 2)
+            write_coordinates_to_file(int(coordinates[0]), int(coordinates[1]))
+
+            all_x_coordinates.append(coordinates[0] + h // 2)
+            all_y_cooordinates.append(coordinates[1] + w // 2)
 
         cv2.imshow('point_search', moment_frame)
 
         quit_button = cv2.waitKey(1)
         if quit_button == ord('q'):
             print(
-                f'Среднее значение центра фигуры:\nx = {int(sum(x[1:]) / len(x[1:]))}\ny = {int(sum(y[1:]) / len(y[1:]))}')
+                f'Среднее значение центра фигуры:\nx = {int(sum(all_x_coordinates[1:]) / len(all_x_coordinates[1:]))}\ny = {int(sum(all_y_cooordinates[1:]) / len(all_y_cooordinates[1:]))}')
+
             break
 
     capture.release()
