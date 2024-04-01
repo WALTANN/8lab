@@ -38,7 +38,7 @@ def video_processing():
         for coordinates in zip(*object_location[::-1]):
             cv2.circle(moment_frame, (coordinates[0] + h // 2, coordinates[1] + w // 2), h // 2, (0, 0, 0), 1)
 
-            print(f'центр: ({coordinates[0] + h // 2},{coordinates[1] + w // 2})')
+            print(f'центр: ({coordinates[0] + h // 2}, {coordinates[1] + w // 2})')
 
             x.append(coordinates[0] + h // 2)
             y.append(coordinates[1] + w // 2)
